@@ -1,7 +1,10 @@
-﻿namespace BitangcorAct2_SisAtMa_
+﻿using attendanceDataService;
+
+namespace BitangcorAct2_SisAtMa_
 {
     internal class Program
     {
+        static attDL atten = new attDL();   
         static string studname;
         static int present, absent;
         static char ans;
@@ -11,11 +14,10 @@
             Console.WriteLine(" ");
             Console.WriteLine("Please select an option:");
             Console.WriteLine("1.) Create Student Attendance");
-            Console.WriteLine("2.) Retrieve Student Attendance");
-            Console.WriteLine("3.) Update Student Attendance");
-            Console.WriteLine("4.) Delete Student Attendance");
-            Console.WriteLine("5.) Show all Students Attendance");
-            Console.WriteLine("6.) Exit");
+            Console.WriteLine("2.) Update Student Attendance");
+            Console.WriteLine("3.) Delete Student Attendance");
+            Console.WriteLine("4.) Show all Students Attendance");
+            Console.WriteLine("5.) Exit");
             Console.WriteLine(" ");
             
             while (true){
@@ -58,11 +60,11 @@
 
                         } while (ans == 'Y');
 
-                        Console.Write("Do you want another transaction? (Y/N): ");
-                        ans = Console.ReadKey().KeyChar;
-                        ans = char.ToUpper(ans);
-                        Console.WriteLine();
-                        Console.WriteLine();
+                            Console.Write("Do you want another transaction? (Y/N): ");
+                            ans = Console.ReadKey().KeyChar;
+                            ans = char.ToUpper(ans);
+                            Console.WriteLine();
+                            Console.WriteLine();
 
                            if (ans != 'Y'){
                                Console.WriteLine("Exiting program...");
@@ -78,8 +80,18 @@
                         Console.WriteLine("hello");
                         break;
                     case 4:
-                        Console.WriteLine("hello");
-                        break;
+                        Console.WriteLine("---List of the Attendance---");
+
+                        var students = atten.Setlist();
+
+                        foreach (var student in students)
+                        {
+                            Console.WriteLine($"Name: {student.studname} Presents: {student.Present}, Absents: {student.Absent}, Total Days: {student.TotalDays}");
+
+                        }
+
+                           break;
+
                     case 5:
                         Console.WriteLine("hello");
                         break;
