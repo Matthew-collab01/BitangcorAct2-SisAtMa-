@@ -6,7 +6,13 @@ namespace attendanceAppService
 {
     public class attBL
     {
-        attDL attdataserve = new attDL();
+        attDL attdataserve;  
+
+        public attBL(attDL dl)  
+        {
+            attdataserve = dl;
+        }
+
         public void inplist(string Sname, int Pre, int Abs)
         {
 

@@ -1,10 +1,13 @@
-﻿using attendanceDataService;
+﻿using attedanceModels;
+using attendanceAppService;
+using attendanceDataService;
 
 namespace BitangcorAct2_SisAtMa_
 {
     internal class Program
     {
-        static attDL atten = new attDL();   
+        static attDL atten = new attDL();
+        static attBL bl = new attBL(atten);
         static string studname;
         static int present, absent;
         static char ans;
@@ -32,6 +35,7 @@ namespace BitangcorAct2_SisAtMa_
 
                     Console.WriteLine("Invalid input. Please enter a number (1-6).");
                     Console.WriteLine();
+                    continue;
                 }
 
                 switch (swi)
@@ -48,6 +52,8 @@ namespace BitangcorAct2_SisAtMa_
 
                             Console.Write("Enter Numbers of Days Absent: ");
                             absent = Convert.ToInt32(Console.ReadLine());
+
+                            bl.inplist(studname, present, absent);
 
                             Console.WriteLine("Student has been recorded successfully!");
                             Console.WriteLine();
@@ -71,7 +77,7 @@ namespace BitangcorAct2_SisAtMa_
                                return;
                            }
                         break;
-
+                        
 
                     case 2:
                         Console.WriteLine("hello");
@@ -79,24 +85,38 @@ namespace BitangcorAct2_SisAtMa_
                     case 3:
                         Console.WriteLine("hello");
                         break;
+                    
                     case 4:
                         Console.WriteLine("---List of the Attendance---");
+                        Console.WriteLine();
 
                         var students = atten.Setlist();
 
-                        foreach (var student in students)
-                        {
+                        foreach (var student in students){
+                            
                             Console.WriteLine($"Name: {student.studname} Presents: {student.Present}, Absents: {student.Absent}, Total Days: {student.TotalDays}");
+                        }
+                            
+                            Console.WriteLine();
+                            Console.Write("Do you want another transaction? (Y/N): ");
+                            ans = Console.ReadKey().KeyChar;
+                            ans = char.ToUpper(ans);
+                            Console.WriteLine();
+                            Console.WriteLine();
 
+                        if (ans != 'Y')
+                        {
+                            Console.WriteLine("Exiting program...");
+                            return;
                         }
 
-                           break;
+                        break;
 
                     case 5:
-                        Console.WriteLine("hello");
-                        break;
-                    case 6:
-                        Console.WriteLine("hello");
+                        Console.WriteLine("Exiting program...");
+                        return;
+                    default:
+                        Console.WriteLine("Invalid choice. Please select 1-5! ");
                         break;
                 }
             }
