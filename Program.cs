@@ -1,49 +1,125 @@
-﻿namespace BitangcorAct2_SisAtMa_
+﻿using attedanceModels;
+using attendanceAppService;
+using attendanceDataService;
+
+namespace BitangcorAct2_SisAtMa_
 {
     internal class Program
     {
-        static void Main(string[] args)
-        {
+        static attDL atten = new attDL();
+        static attBL bl = new attBL(atten);
+        static string studname;
+        static int present, absent;
+        static char ans;
+        static void Main(string[] args){
+
             Console.WriteLine("-----Attendance Management (PUPSIS)-----");
+            Console.WriteLine(" ");
+            Console.WriteLine("Please select an option:");
+            Console.WriteLine("1.) Create Student Attendance");
+            Console.WriteLine("2.) Update Student Attendance");
+            Console.WriteLine("3.) Delete Student Attendance");
+            Console.WriteLine("4.) Show all Students Attendance");
+            Console.WriteLine("5.) Exit");
+            Console.WriteLine(" ");
+            
+            while (true){
 
+                Console.Write("Select a number:");
+                string input = Console.ReadLine();
+                int swi;
+                Console.WriteLine(" ");
 
-            String[] students = new string[12];
+                if (!int.TryParse(input, out swi))
+                {
 
-            students[0] = "Alcantara";
-            students[1] = "Baseleres";
-            students[2] = "Bitangcor";
-            students[3] = "Cabillo";
-            students[4] = "Cruz";
-            students[5] = "David";
-            students[6] = "Fernandez";
-            students[7] = "Mallon";
-            students[8] = "Penaflor";
-            students[9] = "Rodriguez";
-            students[10] = "Santa  Rosa";
-            students[11] = "Trinidad";
-
-            String[] results = new string[12];
-
-            for (int i = 0; i < students.Length; i++){
-                Console.Write((i + 1) + ".) " + students[i] + " = ");
-                string y = Console.ReadLine();
-
-                for (int j = 0; j < students[i].Length; j++){
-                    results[j] = y;
+                    Console.WriteLine("Invalid input. Please enter a number (1-6).");
+                    Console.WriteLine();
+                    continue;
                 }
 
+                switch (swi)
+                {
 
+                    case 1:
+
+                        do {
+                            Console.Write("Enter Student Name: ");
+                            studname = Console.ReadLine();
+
+                            Console.Write("Enter Numbers of Days Present: ");
+                            present = Convert.ToInt32(Console.ReadLine());
+
+                            Console.Write("Enter Numbers of Days Absent: ");
+                            absent = Convert.ToInt32(Console.ReadLine());
+
+                            bl.inplist(studname, present, absent);
+
+                            Console.WriteLine("Student has been recorded successfully!");
+                            Console.WriteLine();
+
+                            Console.Write("Do you want to add another student? (Y/N): ");
+                            ans = Console.ReadKey().KeyChar;
+                            ans = char.ToUpper(ans);
+                            Console.WriteLine();
+                            Console.WriteLine();
+
+                        } while (ans == 'Y');
+
+                            Console.Write("Do you want another transaction? (Y/N): ");
+                            ans = Console.ReadKey().KeyChar;
+                            ans = char.ToUpper(ans);
+                            Console.WriteLine();
+                            Console.WriteLine();
+
+                           if (ans != 'Y'){
+                               Console.WriteLine("Exiting program...");
+                               return;
+                           }
+                        break;
+                        
+
+                    case 2:
+                        Console.WriteLine("hello");
+                        break;
+                    case 3:
+                        Console.WriteLine("hello");
+                        break;
+                    
+                    case 4:
+                        Console.WriteLine("---List of the Attendance---");
+                        Console.WriteLine();
+
+                        var students = atten.Setlist();
+
+                        foreach (var student in students){
+                            
+                            Console.WriteLine($"Name: {student.studname} Presents: {student.Present}, Absents: {student.Absent}, Total Days: {student.TotalDays}");
+                        }
+                            
+                            Console.WriteLine();
+                            Console.Write("Do you want another transaction? (Y/N): ");
+                            ans = Console.ReadKey().KeyChar;
+                            ans = char.ToUpper(ans);
+                            Console.WriteLine();
+                            Console.WriteLine();
+
+                        if (ans != 'Y')
+                        {
+                            Console.WriteLine("Exiting program...");
+                            return;
+                        }
+
+                        break;
+
+                    case 5:
+                        Console.WriteLine("Exiting program...");
+                        return;
+                    default:
+                        Console.WriteLine("Invalid choice. Please select 1-5! ");
+                        break;
+                }
             }
-            Console.WriteLine("Summarization of the Attendance:");
-
-            for (int x = 0; x < students.Length; x++) {
-                Console.WriteLine((x + 1) + ".) " + students[x] + " = " + results[x]);
-            }
-
-
-
-
-
         }
     }
 }

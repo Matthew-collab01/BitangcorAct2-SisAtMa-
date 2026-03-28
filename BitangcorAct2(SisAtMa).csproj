@@ -2,10 +2,27 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>BitangcorAct2_SisAtMa_</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="attedanceModels\**" />
+    <Compile Remove="attendanceAppService\**" />
+    <Compile Remove="attendanceDataService\**" />
+    <EmbeddedResource Remove="attedanceModels\**" />
+    <EmbeddedResource Remove="attendanceAppService\**" />
+    <EmbeddedResource Remove="attendanceDataService\**" />
+    <None Remove="attedanceModels\**" />
+    <None Remove="attendanceAppService\**" />
+    <None Remove="attendanceDataService\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="attedanceModels\attedanceModels.csproj" />
+    <ProjectReference Include="attendanceAppService\attendanceAppService.csproj" />
+  </ItemGroup>
 
 </Project>
