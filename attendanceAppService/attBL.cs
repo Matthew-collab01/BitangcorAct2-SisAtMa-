@@ -13,6 +13,11 @@ namespace attendanceAppService
             attdataserve = dl;
         }
 
+        public void DeleteStudent(int index)
+        {
+            attdataserve.RemoveAttendance(index);
+        }
+
         public void inplist(string Sname, int Pre, int Abs)
         {
 

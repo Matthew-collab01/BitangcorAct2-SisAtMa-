@@ -17,6 +17,14 @@ namespace attendanceDataService
             Attendancelist.Add(att);
         }
 
+        public void RemoveAttendance(int index)
+        {
+            if (index >= 0 && index < Attendancelist.Count)
+            {
+                Attendancelist.RemoveAt(index);
+            }
+        }
+
         public List<attModels> Setlist()
         {
             return Attendancelist;
