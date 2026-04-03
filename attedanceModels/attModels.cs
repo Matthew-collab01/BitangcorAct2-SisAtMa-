@@ -1,7 +1,7 @@
-﻿namespace attedanceModels
-{
-    public class attModels
-    {
+﻿namespace attedanceModels {
+
+    public class attModels {
+
         public string studname { get; set; } = string.Empty;
         public int Present { get; set; }
 

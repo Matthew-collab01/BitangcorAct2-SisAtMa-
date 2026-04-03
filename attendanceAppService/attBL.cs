@@ -2,25 +2,28 @@
 using attendanceDataService;
 using System.Security.Principal;
 
-namespace attendanceAppService
-{
-    public class attBL
-    {
+namespace attendanceAppService {
+
+    public class attBL {
+
         attDL attdataserve;  
 
-        public attBL(attDL dl)  
-        {
+        public attBL(attDL dl) {
+
             attdataserve = dl;
         }
 
-        public void DeleteStudent(int index)
-        {
+        public void UpdateStudent(int index, string newName, int newPre, int newAbs) {
+
+            attdataserve.UpdateAttendance(index, newName, newPre, newAbs);
+        }
+
+        public void DeleteStudent(int index) {
+
             attdataserve.RemoveAttendance(index);
         }
 
-        public void inplist(string Sname, int Pre, int Abs)
-        {
-
+        public void inplist(string Sname, int Pre, int Abs) {
             attModels transmod = new attModels
             {
                 studname = Sname,
@@ -30,7 +33,6 @@ namespace attendanceAppService
             };
 
             attdataserve.AddAttendance(transmod);
-
         }
 
     
