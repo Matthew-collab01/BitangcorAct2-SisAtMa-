@@ -1,12 +1,12 @@
 ﻿using attedanceModels;
 using attendanceAppService;
-using attendanceDataService;
+
 
 namespace BitangcorAct2_SisAtMa_ {
     internal class Program {
 
-        static attDL atten = new attDL();
-        static attBL bl = new attBL(atten);
+        
+        static attBL bl = new attBL();
         static string studname;
         static int present, absent;
         static char ans;
@@ -28,7 +28,7 @@ namespace BitangcorAct2_SisAtMa_ {
 
                 Console.Write("Select a number:");
                 string input = Console.ReadLine();
-                var stud = atten.Setlist();
+                var stud = bl.Setlist();
                 int choice;
                 Console.WriteLine(" ");
 
@@ -167,7 +167,7 @@ namespace BitangcorAct2_SisAtMa_ {
                             break;
                         }
 
-                        bl.UpdateStudent(cho1 - 1, newname, newPres, newAbs);
+                        bl.UpdateStudent(newname, newPres, newAbs);
 
                         Console.WriteLine($"Student '{newname}' has been updated.");
                         Console.WriteLine();

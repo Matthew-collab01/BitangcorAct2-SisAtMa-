@@ -6,16 +6,20 @@ namespace attendanceAppService {
 
     public class attBL {
 
-        attDL attdataserve;  
+        AttendanceMediator attdataserve = new AttendanceMediator(new AttendanceDBData());
+       
 
-        public attBL(attDL dl) {
+        public void UpdateStudent(string newName, int newPre, int newAbs) {
 
-            attdataserve = dl;
-        }
+            attModels updData = new attModels
+            { 
+                studname = newName,
+                Present = newPre,
+                Absent = newAbs,
+                TotalDays = newPre + newAbs
+            };
 
-        public void UpdateStudent(int index, string newName, int newPre, int newAbs) {
-
-            attdataserve.UpdateAttendance(index, newName, newPre, newAbs);
+            attdataserve.UpdateAttendance(updData);
         }
 
         public void DeleteStudent(int index) {
@@ -26,6 +30,7 @@ namespace attendanceAppService {
         public void inplist(string Sname, int Pre, int Abs) {
             attModels transmod = new attModels
             {
+                ident = Guid.NewGuid(),
                 studname = Sname,
                 Present = Pre,
                 Absent = Abs,
@@ -34,8 +39,10 @@ namespace attendanceAppService {
 
             attdataserve.AddAttendance(transmod);
         }
+        public List<attModels> Setlist(){
 
-    
+            return attdataserve.Setlist();
+        }
 
     }
 }
