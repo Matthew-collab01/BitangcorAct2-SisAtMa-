@@ -23,12 +23,10 @@ namespace attendanceDataService {
 
             var existing = Setlist();
 
-            if (existing.Count == 0)
-            {
-                attModels BaseData = new attModels { ident = Guid.NewGuid(), studname = "Matti", Present = 20, Absent = 20, TotalDays = 40 };
+            if (existing.Count == 0) {
+                attModels BaseData = new attModels { ident = Guid.NewGuid(), studname = "Matt", Present = 20, Absent = 20, TotalDays = 40 };
 
                 AddAttendance(BaseData);
-                
             }
         }
 
@@ -73,20 +71,48 @@ namespace attendanceDataService {
 
                 attendance.Add(attDatas);
             }
-
             sqlConnection.Close();
             return attendance;
         }
 
+        public void RemoveAttendance(Guid studentId) {
 
-        public void RemoveAttendance(int index) {
+            string delStatement = "DELETE FROM TB_AttendanceDATA WHERE identityID = @identityID";
 
-            throw new NotImplementedException();
+            using (SqlCommand deleteCommand = new SqlCommand(delStatement, sqlConnection))
+            {
+                deleteCommand.Parameters.AddWithValue("@identityID", studentId);
+
+                sqlConnection.Open();
+                deleteCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
         }
 
-        public void UpdateAttendance(attModels att) {
+        public void UpdateAttendance(attModels att)
+        {
 
-            throw new NotImplementedException();
+            string updateStatement =
+        "UPDATE TB_AttendanceDATA " +
+        "SET student_name = @student_name, " +
+        "    PresentDays = @PresentDays, " +
+        "    AbsentDays = @AbsentDays, " +
+        "    TotalDays = @TotalDays " +
+        "WHERE identityID = @identityID";
+            Console.WriteLine("SQL UPDATE = " + updateStatement);
+
+            using (SqlCommand updateCommand = new SqlCommand(updateStatement, sqlConnection))
+            {
+                updateCommand.Parameters.AddWithValue("@identityID", att.ident);
+                updateCommand.Parameters.AddWithValue("@student_name", att.studname);
+                updateCommand.Parameters.AddWithValue("@PresentDays", att.Present);
+                updateCommand.Parameters.AddWithValue("@AbsentDays", att.Absent);
+                updateCommand.Parameters.AddWithValue("@TotalDays", att.TotalDays);
+
+                sqlConnection.Open();
+                updateCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
         }
     }
 }

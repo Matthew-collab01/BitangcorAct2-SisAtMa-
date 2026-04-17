@@ -10,7 +10,7 @@ namespace attendanceDataService
     {
         void AddAttendance(attModels att);
         void UpdateAttendance(attModels att);
-        void RemoveAttendance(int index);
+        void RemoveAttendance(Guid studentId);
         List<attModels> Setlist();
     }
 }

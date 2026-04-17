@@ -23,9 +23,9 @@ namespace attendanceDataService {
             _attenDataService.UpdateAttendance(att);
         }
 
-        public void RemoveAttendance(int index) {
+        public void RemoveAttendance(Guid studentID) {
 
-            _attenDataService.RemoveAttendance(index);
+            _attenDataService.RemoveAttendance(studentID);
         }
 
         public List<attModels> Setlist() {

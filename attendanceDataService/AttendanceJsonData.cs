@@ -32,37 +32,81 @@ namespace attendanceDataService {
         }
 
         private void SaveDataToJsonFile() {
-
-            using (var outputStream = File.OpenWrite(_jsonFileName))
+            try
             {
-                JsonSerializer.Serialize<List<attModels>>(
-                    new Utf8JsonWriter(outputStream, new JsonWriterOptions
-                    { SkipValidation = true, Indented = true })
-                    , attendanceList);
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    PropertyNameCaseInsensitive = true
+                };
+
+                string jsonString = JsonSerializer.Serialize(attendanceList, options);
+                File.WriteAllText(_jsonFileName, jsonString);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving data: {ex.Message}");
+                throw;
             }
         }
 
         private void RetrieveDataFromJsonFile() {
+            try
+            {
+                if (!File.Exists(_jsonFileName))
+                {
+                    attendanceList = new List<attModels>();
+                    return;
+                }
 
-            using (var jsonFileReader = File.OpenText(_jsonFileName)) {
+                string jsonString = File.ReadAllText(_jsonFileName);
 
-                attendanceList = JsonSerializer.Deserialize<List<attModels>>
-                    (jsonFileReader.ReadToEnd(), new JsonSerializerOptions
-                    { PropertyNameCaseInsensitive = true })
-                    .ToList();
+                if (string.IsNullOrWhiteSpace(jsonString))
+                {
+                    attendanceList = new List<attModels>();
+                    return;
+                }
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                attendanceList = JsonSerializer.Deserialize<List<attModels>>(jsonString, options);
+
+                if (attendanceList == null)
+                {
+                    attendanceList = new List<attModels>();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading JSON file: {ex.Message}");
+                attendanceList = new List<attModels>();
             }
         }
+        
 
 
         public void AddAttendance(attModels att) {
 
+            RetrieveDataFromJsonFile();
             attendanceList.Add(att);
             SaveDataToJsonFile();
         }
 
-        public void RemoveAttendance(int index) {
+        public void RemoveAttendance(Guid studentId) {
 
-            throw new NotImplementedException();
+            RetrieveDataFromJsonFile();
+
+            var target = attendanceList.FirstOrDefault(x => x.ident == studentId);
+            if (target != null)
+            {
+                attendanceList.Remove(target);
+                SaveDataToJsonFile();
+            }
+
+            
         }
 
         public List<attModels> Setlist() {
@@ -82,9 +126,10 @@ namespace attendanceDataService {
                 existingStud.Present = att.Present;
                 existingStud.Absent = att.Absent;
                 existingStud.TotalDays = att.TotalDays;
+                SaveDataToJsonFile();
             }
 
-            SaveDataToJsonFile();
+            
         }
     }
 }
