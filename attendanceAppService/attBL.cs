@@ -6,13 +6,13 @@ namespace attendanceAppService {
 
     public class attBL {
 
-        AttendanceMediator attdataserve = new AttendanceMediator(new AttendanceDBData());
+        AttendanceMediator attdataserve = new AttendanceMediator(new AttendanceJsonData());
        
-
-        public void UpdateStudent(string newName, int newPre, int newAbs) {
+        public void UpdateStudent(Guid studentId, string newName, int newPre, int newAbs) {
 
             attModels updData = new attModels
             { 
+                ident = studentId,
                 studname = newName,
                 Present = newPre,
                 Absent = newAbs,

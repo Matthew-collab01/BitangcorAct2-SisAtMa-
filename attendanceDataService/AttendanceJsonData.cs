@@ -76,8 +76,8 @@ namespace attendanceDataService {
             RetrieveDataFromJsonFile();
 
             var existingStud = attendanceList.FirstOrDefault(x => x.ident == att.ident);
-            if (existingStud != null)
-            {
+            
+            if (existingStud != null) {
                 existingStud.studname = att.studname;
                 existingStud.Present = att.Present;
                 existingStud.Absent = att.Absent;

@@ -8,11 +8,49 @@ namespace BitangcorAct2_SisAtMa_ {
         
         static attBL bl = new attBL();
         static string studname;
-        static int present, absent;
         static char ans;
 
         static void Main(string[] args) {
 
+        ShowChoices();
+
+            while (true) { 
+            
+                Console.Write("Select a number:");
+                int input = Convert.ToInt32(Console.ReadLine());
+                var stud = bl.Setlist();
+                Console.WriteLine(" ");
+
+                switch (input) { 
+
+                    case 1:
+                        CaseCreate();
+                        break;
+
+                    case 2:
+                        CaseUpdate();
+                        break;
+
+                    case 3:
+                        CaseDelete();
+                        break;
+
+                    case 4:
+                        CaseReview();
+                        break;
+
+                    case 5:
+                        Console.WriteLine("Exiting program...");
+                        return;
+
+                    default:
+                        Console.WriteLine("Invalid choice. Please select 1-5! ");
+                        break;
+                }
+            }
+        }
+
+        static void ShowChoices(){
             Console.WriteLine("*-----Attendance Management (PUPSIS)-----*");
             Console.WriteLine(" ");
             Console.WriteLine("Please select an option:");
@@ -22,270 +60,201 @@ namespace BitangcorAct2_SisAtMa_ {
             Console.WriteLine("4.) Show list of all Students Attendance");
             Console.WriteLine("5.) Exit");
             Console.WriteLine(" ");
+        }
 
-            while (true) { 
-            
+        static void CaseCreate() {
+            do {
+                Console.Write("Enter Student Name: ");
+                studname = Console.ReadLine();
 
-                Console.Write("Select a number:");
-                string input = Console.ReadLine();
-                var stud = bl.Setlist();
-                int choice;
-                Console.WriteLine(" ");
-
-                if (!int.TryParse(input, out choice)) { 
-                
-                    Console.WriteLine("Invalid input. Please enter a number (1 - 5).");
+                if (string.IsNullOrWhiteSpace(studname)) {
+                    Console.WriteLine("Please input a valid name.");
                     Console.WriteLine();
                     continue;
                 }
+                Console.Write("Enter Numbers of Days Present: ");
+                int presInput = Convert.ToInt32(Console.ReadLine());
 
-                switch (choice) { 
+                if (presInput < 0) {
+                    Console.WriteLine("Invalid input. Please enter a number!");
+                    Console.WriteLine();
+                    continue;
+                }
+                Console.Write("Enter Numbers of Days Absent: ");
+                int absInput = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
 
-                    case 1:
+                if (absInput < 0) {
+                    Console.WriteLine("Invalid input. Please enter a number!");
+                    Console.WriteLine();
+                    continue;
+                }
+                bl.inplist(studname, presInput, absInput);
 
-                        do {
+                Console.WriteLine("Student has been recorded successfully!");
+                Console.WriteLine();
 
-                            Console.Write("Enter Student Name: ");
-                            studname = Console.ReadLine();
+                Console.Write("Do you want to add another student? (Y/N): ");
+                ans = Console.ReadKey().KeyChar;
+                ans = char.ToUpper(ans);
+                Console.WriteLine();
+                Console.WriteLine();
 
-                            if (string.IsNullOrWhiteSpace(studname)) {
+            } while (ans == 'Y');
+                Console.Write("Do you want another transaction? (Y/N): ");
+                ans = Console.ReadKey().KeyChar;
+                ans = char.ToUpper(ans);
+                Console.WriteLine();
+                Console.WriteLine();
 
-                                Console.WriteLine("Please input a valid name.");
-                                Console.WriteLine();
-                                continue;
-                            }
+                if (ans != 'Y') {
+                    Console.WriteLine("Exiting program...");
+                    return;
+                }
+        }
 
-                            Console.Write("Enter Numbers of Days Present: ");
-                            string presInput = Console.ReadLine();
+        static void CaseUpdate() {
+            var stud = bl.Setlist();
+                Console.WriteLine("---Update Student Attendance---");
+                Console.WriteLine();
 
-                            if (!int.TryParse(presInput, out present) || present < 0) {
-
-                                Console.WriteLine("Invalid input. Please enter a number!");
-                                Console.WriteLine();
-                                continue;
-                            }
-
-                            Console.Write("Enter Numbers of Days Absent: ");
-                            string absInput = Console.ReadLine();
-                            Console.WriteLine();
-
-                            if (!int.TryParse(absInput, out absent) || absent < 0) {
-                                
-                                Console.WriteLine("Invalid input. Please enter a number!");
-                                Console.WriteLine();
-                                continue;
-                            }
-
-                            bl.inplist(studname, present, absent);
-
-                            Console.WriteLine("Student has been recorded successfully!");
-                            Console.WriteLine();
-
-                            Console.Write("Do you want to add another student? (Y/N): ");
-                                ans = Console.ReadKey().KeyChar;
-                                ans = char.ToUpper(ans);
-                                Console.WriteLine();
-                                Console.WriteLine();
-
-                        } while (ans == 'Y');
-
-                        Console.Write("Do you want another transaction? (Y/N): ");
-                        ans = Console.ReadKey().KeyChar;
-                        ans = char.ToUpper(ans);
-                        Console.WriteLine();
-                        Console.WriteLine();
-
-                        if (ans != 'Y') { 
-                            Console.WriteLine("Exiting program...");
-                            return;
-                        }
-                        break;
-
-
-                    case 2:
-
-                        Console.WriteLine("---Update Student Attendance---");
-                        Console.WriteLine();
-
-                        if (stud.Count == 0) {
-                            Console.WriteLine("No students recorded yet.");
-                            Console.WriteLine();
-                            break;
-                        }
-
-                        Console.WriteLine("Current students:");
-                        for (int i = 0; i < stud.Count; i++) {
-
-                            Console.WriteLine($"{i + 1}. {stud[i].studname} - " +
-                                $"Present: {stud[i].Present}, " +
-                                $"Absent: {stud[i].Absent}");
-                        }
-                        Console.WriteLine();
-
-                        Console.Write("Enter the number of the student to update: ");
-                        string inp1 = Console.ReadLine();
-                        int cho1;
-
-                        if (string.IsNullOrEmpty(inp1)) {
-
-                            Console.WriteLine("Please enter a valid number.");
-                            Console.WriteLine();
-                            break;
-                        }
-
-                        if (!int.TryParse(inp1, out cho1) || cho1 < 1 || cho1 > stud.Count) {
-
-                            Console.WriteLine("Invalid choice. Student not found.");
-                            Console.WriteLine();
-                            break;
-                        }
-
-                        Console.WriteLine();
-                        Console.WriteLine($"Updating student: {stud[cho1 - 1].studname}");
-                        Console.WriteLine();
-
-                        Console.Write("Enter updated Student Name: ");
-                        string newname = Console.ReadLine();
-
-                        Console.Write("Enter updated Number of Days Present: ");
-                        string newpresInput = Console.ReadLine();
-
-                        if (!int.TryParse(newpresInput, out int newPres) || newPres < 0) {
-
-                            Console.WriteLine("Invalid input. Please enter a valid number!");
-                            Console.WriteLine();
-                            break;
-                        }
-
-                        Console.Write("Enter updated Number of Days Absent: ");
-                        string newabsInput = Console.ReadLine();
-
-                        if (!int.TryParse(newabsInput, out int newAbs) || newAbs < 0) {
-
-                            Console.WriteLine("Invalid input. Please enter a valid number!");
-                            Console.WriteLine();
-                            break;
-                        }
-
-                        bl.UpdateStudent(newname, newPres, newAbs);
-
-                        Console.WriteLine($"Student '{newname}' has been updated.");
-                        Console.WriteLine();
-
-                        Console.Write("Do you want another transaction? (Y/N): ");
-                        ans = Console.ReadKey().KeyChar;
-                        ans = char.ToUpper(ans);
-                        Console.WriteLine();
-                        Console.WriteLine();
-
-                        if (ans != 'Y') {
-
-                            Console.WriteLine("Exiting program...");
-                            return;
-                        }
-
-                        break;
-
-
-                    case 3:
-
-                        do { 
-
-                            Console.WriteLine("*---Delete Student Attendance---*");
-                            Console.WriteLine();
-
-                            if (stud.Count == 0) {
-
-                                Console.WriteLine("No students recorded yet.");
-                                Console.WriteLine();
-                                break;
-                            }
-
-                            Console.WriteLine("Current students:");
-                            for (int i = 0; i < stud.Count; i++) {
-
-                                Console.WriteLine($"{i + 1}. {stud[i].studname} - " +
+                if (stud.Count == 0) {
+                    Console.WriteLine("No students recorded yet.");
+                    Console.WriteLine();
+                }
+                Console.WriteLine("Current students:");
+                for (int i = 0; i < stud.Count; i++) {
+                    Console.WriteLine($"{i + 1}. {stud[i].studname} - " +
                                     $"Present: {stud[i].Present}, " +
                                     $"Absent: {stud[i].Absent}");
-                            }
+                }
+                Console.WriteLine();
+                Console.Write("Enter the number of the student to update: ");
+                int inp1 = Convert.ToInt32(Console.ReadLine());
 
-                            Console.WriteLine();
-                            Console.Write("Enter the number of the student to delete: ");
-                            string inp2 = Console.ReadLine();
+                if (inp1 < 1 || inp1 > stud.Count) {
+                    Console.WriteLine("Invalid input. Student not found.");
+                    Console.WriteLine();
+                }
+            Guid selectedStudID = stud[inp1 - 1].ident;
 
-                            if (!int.TryParse(inp2, out int cho2) || cho2 < 1 || cho2 > stud.Count) {
+            Console.WriteLine();
+            Console.WriteLine($"Updating student: {stud[inp1 - 1].studname}");
+            Console.WriteLine();
 
-                                Console.WriteLine("Invalid choice. Student not found.");
-                                Console.WriteLine();
-                                break;
-                            }
+                Console.Write("Enter updated Student Name: ");
+                string newname = Console.ReadLine();
 
-                            string delname = stud[cho2 - 1].studname;
-                            bl.DeleteStudent(cho2 - 1);
+                Console.Write("Enter updated Number of Days Present: ");
+                int newpresInput = Convert.ToInt32(Console.ReadLine());
 
-                            Console.WriteLine($"Student '{delname}' has been deleted.");
-                            Console.WriteLine();
+                if (newpresInput < 0) {
+                    Console.WriteLine("Invalid input. Please enter a valid number!");
+                    Console.WriteLine();
+                }
+                Console.Write("Enter updated Number of Days Absent: ");
+                int newabsInput = Convert.ToInt32(Console.ReadLine());
 
-                            Console.Write("Do you want to delete another student? (Y/N): ");
-                            ans = Console.ReadKey().KeyChar;
-                            ans = char.ToUpper(ans);
-                            Console.WriteLine();
-                            Console.WriteLine();
+                if (newabsInput < 0) {
+                    Console.WriteLine("Invalid input. Please enter a valid number!");
+                    Console.WriteLine();
+                }
+            bl.UpdateStudent(selectedStudID, newname, newpresInput, newabsInput);
 
-                        } while (ans == 'Y');
+                Console.WriteLine($"Student '{newname}' has been updated.");
+                Console.WriteLine();
 
-                        Console.Write("Do you want another transaction? (Y/N): ");
-                        ans = Console.ReadKey().KeyChar;
-                        ans = char.ToUpper(ans);
+                Console.Write("Do you want another transaction? (Y/N): ");
+                ans = Console.ReadKey().KeyChar;
+                ans = char.ToUpper(ans);
+                Console.WriteLine();
+                Console.WriteLine();
+
+                if (ans != 'Y') {
+                    Console.WriteLine("Exiting program...");
+                    return;
+                }
+        }
+
+
+        static void CaseDelete(){
+            var stud = bl.Setlist();
+            do {
+                 Console.WriteLine("*---Delete Student Attendance---*");
+                 Console.WriteLine();
+
+                    if (stud.Count == 0) {
+                        Console.WriteLine("No students recorded yet.");
                         Console.WriteLine();
+                    }
+
+                    Console.WriteLine("Current students:");
+                    for (int i = 0; i < stud.Count; i++) {
+                        Console.WriteLine($"{i + 1}. {stud[i].studname} - " +
+                            $"Present: {stud[i].Present}, " +
+                            $"Absent: {stud[i].Absent}");
+                    }
+                    Console.WriteLine();
+                    Console.Write("Enter the number of the student to delete: ");
+                    int inp2 = Convert.ToInt32(Console.ReadLine());
+
+                    if (inp2 < 1 || inp2 > stud.Count) {
+                        Console.WriteLine("Invalid choice. Student not found.");
                         Console.WriteLine();
-
-                        if (ans != 'Y') {
-
-                            Console.WriteLine("Exiting program...");
-                            return;
-                        }
                         break;
+                    }
+                 string delname = stud[inp2 - 1].studname;
+                 bl.DeleteStudent(inp2 - 1);
 
+                    Console.WriteLine($"Student '{delname}' has been deleted.");
+                    Console.WriteLine();
 
-                    case 4:
-                        Console.WriteLine("*---List of the Attendance---*");
-                        Console.WriteLine();
+                    Console.Write("Do you want to delete another student? (Y/N): ");
+                    ans = Console.ReadKey().KeyChar;
+                    ans = char.ToUpper(ans);
+                    Console.WriteLine();
+                    Console.WriteLine();
 
-                        foreach (var student in stud) { 
+                } while (ans == 'Y');
 
-                            Console.WriteLine($"" +
-                                $"Name: {student.studname} " +
-                                $"Presents: {student.Present}, " +
-                                $"Absents: {student.Absent}, " +
-                                $"Total Days: {student.TotalDays}");
-                        }
+                    Console.Write("Do you want another transaction? (Y/N): ");
+                    ans = Console.ReadKey().KeyChar;
+                    ans = char.ToUpper(ans);
+                    Console.WriteLine();
+                    Console.WriteLine();
 
-                        Console.WriteLine();
-                        Console.Write("Do you want another transaction? (Y/N): ");
-                        ans = Console.ReadKey().KeyChar;
-                        ans = char.ToUpper(ans);
-                        Console.WriteLine();
-                        Console.WriteLine();
-
-                        if (ans != 'Y') {
-
-                            Console.WriteLine("Exiting program...");
-                            return;
-                        }
-
-                        break;
-
-                    case 5:
+                    if (ans != 'Y') {
                         Console.WriteLine("Exiting program...");
                         return;
-
-
-                    default:
-                        Console.WriteLine("Invalid choice. Please select 1-5! ");
-                        break;
-                }
-            }
+                    }
         }
+
+        static void CaseReview(){
+            var stud = bl.Setlist();
+                Console.WriteLine("*---List of the Attendance---*");
+                Console.WriteLine();
+
+                foreach (var student in stud) {
+                    Console.WriteLine($"" +
+                    $"Name: {student.studname} " +
+                    $"Presents: {student.Present}, " +
+                    $"Absents: {student.Absent}, " +
+                    $"Total Days: {student.TotalDays}");
+                }
+
+                Console.WriteLine();
+                Console.Write("Do you want another transaction? (Y/N): ");
+                ans = Console.ReadKey().KeyChar;
+                ans = char.ToUpper(ans);
+                Console.WriteLine();
+                Console.WriteLine();
+
+                if (ans != 'Y') {
+                    Console.WriteLine("Exiting program...");
+                    return;
+                }
+        } 
+
+        
     }
 }

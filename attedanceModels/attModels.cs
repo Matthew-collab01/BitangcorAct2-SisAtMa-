@@ -1,7 +1,7 @@
 ﻿namespace attedanceModels {
 
     public class attModels {
-        public Guid ident {  get; set; }
+        public Guid ident { get; set; }
         public string studname { get; set; } = string.Empty;
         public int Present { get; set; }
 

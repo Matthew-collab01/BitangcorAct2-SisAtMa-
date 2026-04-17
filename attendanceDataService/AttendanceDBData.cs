@@ -5,24 +5,22 @@ using System.Collections.Generic;
 using System.Security.Principal;
 using System.Text;
 
-namespace attendanceDataService
-{
-    public class AttendanceDBData : ISystemDataServices
-    {
+namespace attendanceDataService {
+    public class AttendanceDBData : ISystemDataServices {
         private string connectionString
         = "Data Source =localhost\\SQLEXPRESS01; Initial Catalog = AttendanceData; Integrated Security = True; TrustServerCertificate=True;";
 
         private SqlConnection sqlConnection;
 
-        public AttendanceDBData()
-        {
+        public AttendanceDBData() {
+
             sqlConnection = new SqlConnection(connectionString);
 
             AddSeeds();
         }
 
-        private void AddSeeds()
-        {
+        private void AddSeeds() {
+
             var existing = Setlist();
 
             if (existing.Count == 0)
@@ -34,8 +32,8 @@ namespace attendanceDataService
             }
         }
 
-        public void AddAttendance(attModels attdata)
-        {
+        public void AddAttendance(attModels attdata) {
+
             var insertStatement = "INSERT INTO TB_AttendanceDATA VALUES (@identityID, @student_name, @PresentDays, @AbsentDays, @TotalDays)";
 
             SqlCommand insertCommand = new SqlCommand(insertStatement, sqlConnection);
@@ -52,8 +50,8 @@ namespace attendanceDataService
             sqlConnection.Close();
         }
 
-        public List<attModels> Setlist()
-        {
+        public List<attModels> Setlist() {
+
             string selectStatement = "SELECT identityID, student_name, PresentDays, AbsentDays, TotalDays FROM TB_AttendanceDATA";
 
             SqlCommand selectCommand = new SqlCommand(selectStatement, sqlConnection);
@@ -64,8 +62,8 @@ namespace attendanceDataService
 
             var attendance = new List<attModels>();
 
-            while (reader.Read())
-            {
+            while (reader.Read()) {
+
                 attModels attDatas = new attModels();
                 attDatas.ident = Guid.Parse(reader["identityID"].ToString());
                 attDatas.studname = reader["student_name"].ToString();
@@ -80,15 +78,14 @@ namespace attendanceDataService
             return attendance;
         }
 
-        
 
-        public void RemoveAttendance(int index)
-        {
+        public void RemoveAttendance(int index) {
+
             throw new NotImplementedException();
         }
 
-        public void UpdateAttendance(attModels att)
-        {
+        public void UpdateAttendance(attModels att) {
+
             throw new NotImplementedException();
         }
     }
