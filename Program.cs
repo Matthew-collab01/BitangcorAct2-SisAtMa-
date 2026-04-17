@@ -254,28 +254,28 @@ namespace BitangcorAct2_SisAtMa_ {
             Console.WriteLine("*---Attendance Summary---*");
             Console.WriteLine();
 
-            if (stud.Count == 0) {
-                Console.WriteLine("No students recorded yet.");
-                Console.WriteLine();
-                return;
-            }
+                if (stud.Count == 0) {
+                    Console.WriteLine("No students recorded yet.");
+                    Console.WriteLine();
+                    return;
+                }
 
             int totalStudents = stud.Count;
             int totalPresentDays = 0;
             int totalAbsentDays = 0;
 
-            foreach (var student in stud) {
-                totalPresentDays += student.Present;
-                totalAbsentDays += student.Absent;
-            }
+                foreach (var student in stud) {
+                    totalPresentDays += student.Present;
+                    totalAbsentDays += student.Absent;
+                }
 
             int totalOverallDays = totalPresentDays + totalAbsentDays;
 
             double attendanceRate = 0.0;
             
-            if (totalOverallDays > 0) {
-                attendanceRate = (double)totalPresentDays / totalOverallDays * 100.0;
-            }
+                if (totalOverallDays > 0) {
+                    attendanceRate = (double)totalPresentDays / totalOverallDays * 100.0;
+                }
 
             Console.WriteLine($"Total number of students: {totalStudents}");
             Console.WriteLine($"Total present days: {totalPresentDays}");
@@ -290,10 +290,10 @@ namespace BitangcorAct2_SisAtMa_ {
             Console.WriteLine();
             Console.WriteLine();
 
-            if (ans != 'Y') {
-                Console.WriteLine("Exiting program...");
-                Environment.Exit(0);
-            }
+                if (ans != 'Y') {
+                    Console.WriteLine("Exiting program...");
+                    Environment.Exit(0);
+                }
         }
 
         static void CaseReview(){
