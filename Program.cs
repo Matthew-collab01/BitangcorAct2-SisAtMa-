@@ -62,7 +62,7 @@ namespace BitangcorAct2_SisAtMa_ {
             Console.WriteLine("1.) Create Student Attendance");
             Console.WriteLine("2.) Update Student Attendance");
             Console.WriteLine("3.) Delete Student Attendance");
-            Console.WriteLine("4.) Search Student Attendance");
+            Console.WriteLine("4.) Show List of Student Attendance");
             Console.WriteLine("5.) Summary of Student Attendance");
             Console.WriteLine("6.) Exit");
             Console.WriteLine(" ");

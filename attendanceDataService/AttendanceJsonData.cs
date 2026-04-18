@@ -14,7 +14,7 @@ namespace attendanceDataService {
 
         public AttendanceJsonData() {
 
-            _jsonFileName = $"{AppDomain.CurrentDomain.BaseDirectory}/AttendanceJSONdatafile.json";
+            _jsonFileName = $"{AppDomain.CurrentDomain.BaseDirectory}/AttData.json";
 
             PopulateJsonFile();
         }

@@ -6,7 +6,7 @@ namespace attendanceAppService {
 
     public class attBL {
 
-        AttendanceMediator attdataserve = new AttendanceMediator(new AttendanceDBData());
+        AttendanceMediator attdataserve = new AttendanceMediator(new AttendanceJsonData());
        
         public void UpdateStudent(Guid studentId, string newName, int newPre, int newAbs) {
 
