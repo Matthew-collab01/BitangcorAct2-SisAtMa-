@@ -28,6 +28,11 @@ namespace attendanceDataService {
             _attenDataService.RemoveAttendance(studentID);
         }
 
+        public attModels? GetById(Guid ident)
+        {
+            return _attenDataService.GetById(ident);
+        }
+
         public List<attModels> Setlist() {
 
             return _attenDataService.Setlist();

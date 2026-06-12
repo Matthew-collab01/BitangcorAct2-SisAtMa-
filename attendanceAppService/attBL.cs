@@ -6,7 +6,7 @@ namespace attendanceAppService {
 
     public class attBL {
 
-        AttendanceMediator attdataserve = new AttendanceMediator(new AttendanceJsonData());
+        AttendanceMediator attdataserve = new AttendanceMediator(new AttendanceDBData());
        
         public void UpdateStudent(Guid studentId, string newName, int newPre, int newAbs) {
 
@@ -43,6 +43,11 @@ namespace attendanceAppService {
         public List<attModels> GetAllAttendances()
         {
             return attdataserve.Setlist();
+        }
+
+        public attModels? GetAttendance(Guid ident)
+        {
+            return attdataserve.GetById(ident);
         }
 
         public List<attModels> Setlist(){

@@ -6,9 +6,11 @@ namespace attendanceDataService {
     public class attDL {
 
             public List <attModels> Attendancelist = new List<attModels>();
-            
-        public attDL() {
 
+        public ISystemDataServices _attDL;
+        public attDL(ISystemDataServices attdataserve)
+        {
+            _attDL = attdataserve;
         }
 
         public void UpdateAttendance(int index, string newName, int newPre, int newAbs) {
@@ -35,6 +37,11 @@ namespace attendanceDataService {
 
                 Attendancelist.RemoveAt(index);
             }
+        }
+
+        public attModels? GetById(Guid ident)
+        {
+            return _attDL.GetById(ident);
         }
 
         public List<attModels> Setlist() {

@@ -8,7 +8,7 @@ using System.Text;
 namespace attendanceDataService {
     public class AttendanceDBData : ISystemDataServices {
         private string connectionString
-        = "Data Source =localhost\\SQLEXPRESS01; Initial Catalog = AttendanceData; Integrated Security = True; TrustServerCertificate=True;";
+        = "Data Source =(localdb)\\MSSQLLocalDB; Initial Catalog = AttendanceData; Integrated Security = True; TrustServerCertificate=True;";
 
         private SqlConnection sqlConnection;
 
@@ -24,7 +24,7 @@ namespace attendanceDataService {
             var existing = Setlist();
 
             if (existing.Count == 0) {
-                attModels BaseData = new attModels { ident = Guid.NewGuid(), studname = "Matt", Present = 20, Absent = 20, TotalDays = 40 };
+                attModels BaseData = new attModels { ident = Guid.NewGuid(), studname = "Matt", Present = 2, Absent = 2, TotalDays = 4 };
 
                 AddAttendance(BaseData);
             }
@@ -114,5 +114,29 @@ namespace attendanceDataService {
                 sqlConnection.Close();
             }
         }
+
+            public attModels? GetById(Guid ident) {
+
+            var selectStatement = "SELECT AccountId, Username, Password FROM Accounts WHERE AccountId = @AccountId";
+            SqlCommand selectCommand = new SqlCommand(selectStatement, sqlConnection);
+            selectCommand.Parameters.AddWithValue("@identityID", ident.ToString());
+            sqlConnection.Open();
+            SqlDataReader reader = selectCommand.ExecuteReader();
+
+            var mod = new attModels();
+
+            while (reader.Read())
+            {
+                mod.ident = Guid.Parse(reader["identityID"].ToString());
+                mod.studname = reader["student_name"].ToString();
+                mod.Present = int.Parse(reader["PresentDays"].ToString());
+                mod.Absent = int.Parse(reader["AbsentDays"].ToString());
+                mod.TotalDays = int.Parse(reader["TotalDays"].ToString());
+            }
+
+            sqlConnection.Close();
+            return mod;
+        }
     }
+    
 }

@@ -131,5 +131,10 @@ namespace attendanceDataService {
 
             
         }
+
+        public attModels? GetById(Guid ident)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
