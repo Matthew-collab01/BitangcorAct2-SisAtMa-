@@ -115,28 +115,41 @@ namespace attendanceDataService {
             }
         }
 
-            public attModels? GetById(Guid ident) {
+        public attModels GetById(Guid ident)
+        {
+            var selectStatement = @"SELECT identityID, student_name, PresentDays, AbsentDays, TotalDays
+                             FROM [AttendanceData].[dbo].[TB_AttendanceDATA]
+                             WHERE identityID = @identityID";
 
-            var selectStatement = "SELECT AccountId, Username, Password FROM Accounts WHERE AccountId = @AccountId";
-            SqlCommand selectCommand = new SqlCommand(selectStatement, sqlConnection);
-            selectCommand.Parameters.AddWithValue("@identityID", ident.ToString());
-            sqlConnection.Open();
-            SqlDataReader reader = selectCommand.ExecuteReader();
+            attModels mod = null;
 
-            var mod = new attModels();
-
-            while (reader.Read())
+            using (SqlConnection conn = new SqlConnection(sqlConnection.ConnectionString))
+            using (SqlCommand selectCommand = new SqlCommand(selectStatement, conn))
             {
-                mod.ident = Guid.Parse(reader["identityID"].ToString());
-                mod.studname = reader["student_name"].ToString();
-                mod.Present = int.Parse(reader["PresentDays"].ToString());
-                mod.Absent = int.Parse(reader["AbsentDays"].ToString());
-                mod.TotalDays = int.Parse(reader["TotalDays"].ToString());
+                selectCommand.Parameters.AddWithValue("@identityID", ident);
+
+                conn.Open();
+
+                using (SqlDataReader reader = selectCommand.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        mod = new attModels
+                        {
+                            ident = Guid.Parse(reader["identityID"].ToString()),
+                            studname = reader["student_name"].ToString(),
+                            Present = Convert.ToInt32(reader["PresentDays"]),
+                            Absent = Convert.ToInt32(reader["AbsentDays"]),
+                            TotalDays = Convert.ToInt32(reader["TotalDays"])
+                        };
+                    }
+                }
             }
 
-            sqlConnection.Close();
             return mod;
         }
+
+
     }
     
 }

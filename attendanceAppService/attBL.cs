@@ -53,7 +53,7 @@ namespace attendanceAppService
             return attdataserve.GetById(ident);
         }
 
-        public void AddStudent(string studname, int present, int absent)
+        public attModels AddStudent(string studname, int present, int absent)
         {
             attModels newRecord = new attModels
             {
@@ -64,6 +64,7 @@ namespace attendanceAppService
                 TotalDays = present + absent
             };
             attdataserve.AddAttendance(newRecord);
+            return newRecord;
         }
 
         public bool UpdateStudentById(Guid ident, string newName, int newPre, int newAbs)
